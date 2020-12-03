@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_todo_app/main.dart';
 import 'package:flutter_todo_app/ui/page_done.dart';
 import 'package:flutter_todo_app/ui/page_settings.dart';
 import 'package:flutter_todo_app/ui/page_task.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Future<Null> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   _currentUser = await _signInAnonymously();
 
-  runApp(new TaskistApp());
+  runApp(new TodoApp());
 }
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -33,7 +33,7 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class TaskistApp extends StatelessWidget {
+class TodoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

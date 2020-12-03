@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "915714340304",
+    "project_id": "todo-7731e",
+    "storage_bucket": "todo-7731e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915714340304:android:840e730385c6667e98f5d5",
+        "android_client_info": {
+          "package_name": "com.merchant.flutter_todo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915714340304-md2sgahu1v7uglmbg4fpcblk4cqk9bal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhSOO6fvR4vcb3YxRWAz1IrFiDFIatXlw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915714340304-md2sgahu1v7uglmbg4fpcblk4cqk9bal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
