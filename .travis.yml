@@ -3,13 +3,6 @@ git:
 
 jobs:
   include:
-    - name: iOS tests, stable channel
-      os: osx
-      osx_image: xcode11.2
-      language: objective-c
-      script: "./tool/travis_ios_script.sh"
-      env: FLUTTER_VERSION=stable
-
     - name: Android tests, stable channel
       os: linux
       dist: trusty
@@ -30,12 +23,6 @@ jobs:
       script: "./tool/travis_flutter_script.sh"
       env: FLUTTER_VERSION=stable
 
-    - name: iOS tests, beta channel
-      os: osx
-      osx_image: xcode11.2
-      language: objective-c
-      script: "./tool/travis_ios_script.sh"
-      env: FLUTTER_VERSION=beta
 
     - name: Android tests, beta channel
       os: linux
@@ -57,17 +44,6 @@ jobs:
       script: "./tool/travis_flutter_script.sh"
       env: FLUTTER_VERSION=beta
 
-    - name: Visual samples index tests
-      os: linux
-      dist: trusty
-      env: FLUTTER_VERSION=stable
-      script:
-        - cd web/samples_index
-        - ../../flutter/bin/dart pub get
-        - ../../flutter/bin/dart test
-
-  allow_failures:
-    - env: FLUTTER_VERSION=beta
 
 env:
   global:
@@ -79,15 +55,6 @@ before_script:
   - "./flutter/bin/flutter doctor"
   - chmod +x tool/travis_*_script.sh
 
-cache:
-  cocoapods: true
-  directories:
-    - "$HOME/shared/.pub-cache"
-    - "$HOME/google-cloud-sdk"
-
-notifications:
-  email: brogdon+github@gmail.com
-
 branches:
   only:
     - master
@@ -96,4 +63,3 @@ branches:
 
 
 
-n
