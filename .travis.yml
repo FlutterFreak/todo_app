@@ -57,9 +57,9 @@ before_script:
 
 branches:
   only:
-    - master
-    - beta
-    - testing_sample
+    - main
+    - dev
+
 
 
 
