@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'package:flutter/services.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_todo_app/utils/colorGenerator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
-import 'package:connectivity/connectivity.dart';
 
 class NewTaskPage extends StatefulWidget {
   final FirebaseUser user;
@@ -22,8 +21,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
   TextEditingController listNameController = new TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  Color pickerColor = Color(0xff6633ff);
-  Color currentColor = Color(0xff6633ff);
+  Color currentColor = UniqueColorGenerator.getColor();
 
   ValueChanged<Color> onColorChanged;
 
@@ -62,17 +60,16 @@ class _NewTaskPageState extends State<NewTaskPage> {
 
     print(_connectionStatus);
 
-    if(_connectionStatus == "ConnectivityResult.none"){
+    if (_connectionStatus == "ConnectivityResult.none") {
       showInSnackBar("No internet connection currently available");
       setState(() {
         _saving = false;
       });
     } else {
-
       bool isExist = false;
 
       QuerySnapshot query =
-      await Firestore.instance.collection(widget.user.uid).getDocuments();
+          await Firestore.instance.collection(widget.user.uid).getDocuments();
 
       query.documents.forEach((doc) {
         if (listNameController.text.toString() == doc.documentID) {
@@ -91,8 +88,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
 
         listNameController.clear();
 
-        pickerColor = Color(0xff6633ff);
-        currentColor = Color(0xff6633ff);
+        currentColor = UniqueColorGenerator.getColor();
 
         Navigator.of(context).pop();
       }
@@ -193,45 +189,6 @@ class _NewTaskPageState extends State<NewTaskPage> {
                           new Padding(
                             padding: EdgeInsets.only(bottom: 10.0),
                           ),
-                          ButtonTheme(
-                            minWidth: double.infinity,
-                            child: RaisedButton(
-                              elevation: 3.0,
-                              onPressed: () {
-                                pickerColor = currentColor;
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Pick a color!'),
-                                      content: SingleChildScrollView(
-                                        child: ColorPicker(
-                                          pickerColor: pickerColor,
-                                          onColorChanged: changeColor,
-                                          enableLabel: true,
-                                          colorPickerWidth: 1000.0,
-                                          pickerAreaHeightPercent: 0.7,
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text('Got it'),
-                                          onPressed: () {
-                                            setState(() =>
-                                                currentColor = pickerColor);
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Text('Card color'),
-                              color: currentColor,
-                              textColor: const Color(0xffffffff),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -244,7 +201,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
                               'Add',
                               style: TextStyle(color: Colors.white),
                             ),
-                            color: Colors.blue,
+                            color: Colors.deepPurple,
                             elevation: 4.0,
                             splashColor: Colors.deepPurple,
                             onPressed: addToFirebase,
@@ -261,10 +218,6 @@ class _NewTaskPageState extends State<NewTaskPage> {
     );
   }
 
-  changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
-
   @override
   void dispose() {
     _scaffoldKey.currentState?.dispose();
@@ -278,10 +231,10 @@ class _NewTaskPageState extends State<NewTaskPage> {
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-          setState(() {
-            _connectionStatus = result.toString();
-          });
-        });
+      setState(() {
+        _connectionStatus = result.toString();
+      });
+    });
   }
 
   void showInSnackBar(String value) {

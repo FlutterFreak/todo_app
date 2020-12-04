@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_todo_app/ui/page_done.dart';
-import 'package:flutter_todo_app/ui/page_settings.dart';
 import 'package:flutter_todo_app/ui/page_task.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -58,9 +57,6 @@ class _HomePageState extends State<HomePage>
     TaskPage(
       user: _currentUser,
     ),
-    SettingsPage(
-      user: _currentUser,
-    )
   ];
 
   @override
@@ -76,8 +72,6 @@ class _HomePageState extends State<HomePage>
               title: new Text("")),
           BottomNavigationBarItem(
               icon: new Icon(FontAwesomeIcons.calendar), title: new Text("")),
-          BottomNavigationBarItem(
-              icon: new Icon(FontAwesomeIcons.slidersH), title: new Text(""))
         ],
       ),
       body: _children[_currentIndex],

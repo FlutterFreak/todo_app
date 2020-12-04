@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_todo_app/model/element.dart';
 import 'package:flutter_todo_app/utils/diamond_fab.dart';
@@ -27,6 +26,7 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //key: _scaffoldKey,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: new Stack(
         children: <Widget>[
@@ -110,7 +110,7 @@ class _DetailPageState extends State<DetailPage> {
                         }
                       },
                       child: Text('Add'),
-                      color: currentColor,
+                      color: Colors.deepPurple,
                       textColor: const Color(0xffffffff),
                     ),
                   )
@@ -120,7 +120,7 @@ class _DetailPageState extends State<DetailPage> {
           );
         },
         child: Icon(Icons.add),
-        backgroundColor: currentColor,
+        backgroundColor: Colors.deepPurple,
       ),
     );
   }
@@ -195,7 +195,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Navigator.pop(context);
                                       },
                                       child: Text('No'),
-                                      color: currentColor,
+                                      color: Colors.deepPurple,
                                       textColor: const Color(0xffffffff),
                                     ),
                                   ),
@@ -213,7 +213,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Navigator.of(context).pop();
                                       },
                                       child: Text('YES'),
-                                      color: currentColor,
+                                      color: Colors.deepPurple,
                                       textColor: const Color(0xffffffff),
                                     ),
                                   ),
@@ -225,7 +225,7 @@ class _DetailPageState extends State<DetailPage> {
                         child: Icon(
                           FontAwesomeIcons.trash,
                           size: 25.0,
-                          color: currentColor,
+                          color: Colors.deepPurple,
                         ),
                       ),
                     ],
@@ -301,11 +301,7 @@ class _DetailPageState extends State<DetailPage> {
                                               listElement.elementAt(i).isDone
                                                   ? FontAwesomeIcons.checkSquare
                                                   : FontAwesomeIcons.square,
-                                              color: listElement
-                                                      .elementAt(i)
-                                                      .isDone
-                                                  ? currentColor
-                                                  : Colors.black,
+                                              color: Colors.black,
                                               size: 20.0,
                                             ),
                                             Padding(
@@ -324,7 +320,7 @@ class _DetailPageState extends State<DetailPage> {
                                                         decoration:
                                                             TextDecoration
                                                                 .lineThrough,
-                                                        color: currentColor,
+                                                        color: Colors.black,
                                                         fontSize: 27.0,
                                                       )
                                                     : TextStyle(
@@ -372,22 +368,17 @@ class _DetailPageState extends State<DetailPage> {
   @override
   void initState() {
     super.initState();
-    pickerColor = Color(int.parse(widget.color));
+
     currentColor = Color(int.parse(widget.color));
   }
 
-  Color pickerColor;
   Color currentColor;
 
   ValueChanged<Color> onColorChanged;
 
-  changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
-
   Padding _getToolbar(BuildContext context) {
     return new Padding(
-      padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 12.0),
+      padding: EdgeInsets.only(top: 50.0, left: 45.0, right: 12.0),
       child:
           new Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         new Image(
@@ -395,48 +386,6 @@ class _DetailPageState extends State<DetailPage> {
             height: 35.0,
             fit: BoxFit.cover,
             image: new AssetImage('assets/list.png')),
-        RaisedButton(
-          elevation: 3.0,
-          onPressed: () {
-            pickerColor = currentColor;
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text('Pick a color!'),
-                  content: SingleChildScrollView(
-                    child: ColorPicker(
-                      pickerColor: pickerColor,
-                      onColorChanged: changeColor,
-                      enableLabel: true,
-                      colorPickerWidth: 1000.0,
-                      pickerAreaHeightPercent: 0.7,
-                    ),
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('Got it'),
-                      onPressed: () {
-                        Firestore.instance
-                            .collection(widget.user.uid)
-                            .document(
-                                widget.currentList.keys.elementAt(widget.i))
-                            .updateData(
-                                {"color": pickerColor.value.toString()});
-
-                        setState(() => currentColor = pickerColor);
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-          child: Text('Color'),
-          color: currentColor,
-          textColor: const Color(0xffffffff),
-        ),
         GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
@@ -444,7 +393,7 @@ class _DetailPageState extends State<DetailPage> {
           child: new Icon(
             Icons.close,
             size: 40.0,
-            color: currentColor,
+            color: Colors.deepPurple,
           ),
         ),
       ]),
