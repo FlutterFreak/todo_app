@@ -23,17 +23,6 @@ jobs:
       script:
         - $DARTFMT -n $PACKAGES --set-exit-if-changed
 
-
-
-    - stage: App Flutter Test
-      script:
-        - cd $APP
-        - $FLUTTER_UP test --coverage
-      after_success:
-        - bash <(curl -s $CODECOV)
-
-
-
     - stage: Android Integration Tests
       language: android
       dist: trusty
