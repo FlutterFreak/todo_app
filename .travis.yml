@@ -62,5 +62,4 @@ jobs:
       script:
         - $FLUTTER --version
         - $FLUTTER doctor
-        - cd $APP
-        - $FLUTTER_UP devices
+
