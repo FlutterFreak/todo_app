@@ -12,7 +12,7 @@
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
-
+setup_travis
 default_platform(:android)
 
 platform :android do
@@ -25,7 +25,9 @@ platform :android do
   lane :beta do
     gradle(task: "clean assembleRelease")
     crashlytics
-  
+    gradle(task: 'assemble', build_type: 'Release')
+    upload_to_play_store(track: 'beta')
+    slack(message: 'Successfully distributed a new beta build')
     # sh "your_script.sh"
     # You can also use other beta testing services here
   end
